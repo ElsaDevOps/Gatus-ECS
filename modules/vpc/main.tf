@@ -77,7 +77,7 @@ resource "aws_internet_gateway" "igw" {
 
 
 resource "aws_eip" "nat" {
-  domain   = "vpc"
+  domain = "vpc"
 
 
   tags = {
@@ -93,6 +93,7 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat_gateway" {
   availability_mode = "regional"
   allocation_id     = aws_eip.nat.id
+  vpc_id = aws_vpc.my_vpc.id
 
 
   tags = {

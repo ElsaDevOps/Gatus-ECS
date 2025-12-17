@@ -31,6 +31,7 @@ override.tf.json
 
 *.terraformrc
 terraform.rc
+.terraform.tfstate.lock.info
 
 
 
