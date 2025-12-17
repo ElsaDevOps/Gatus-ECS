@@ -93,7 +93,7 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat_gateway" {
   availability_mode = "regional"
   allocation_id     = aws_eip.nat.id
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id            = aws_vpc.my_vpc.id
 
 
   tags = {
