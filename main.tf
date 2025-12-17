@@ -7,4 +7,3 @@ module "vpc" {
   availability_zones      = local.network_config.availability_zones
   project_name            = var.project_name
 }
-
