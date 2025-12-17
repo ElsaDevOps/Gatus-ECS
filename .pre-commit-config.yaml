@@ -1,0 +1,17 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+
+-  repo: https://github.com/antonbabenko/pre-commit-terraform
+   rev: v1.104.0
+   hooks:
+      - id: terraform_checkov
+        args:
+          - --args=--quiet
+          - --args=--compact
+          - --args=--skip-check=CKV_AWS_91,CKV_AWS_260,CKV_AWS_382,CKV2_AWS_11,CKV2_AWS_28,CKV2_AWS_5,CKV2_AWS_12,CKV_AWS_130,CKV_AWS_161,CKV_AWS_118,CKV_AWS_129,CKV_AWS_184
