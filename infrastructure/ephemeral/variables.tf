@@ -27,3 +27,23 @@ variable "project_name" {
   type        = string
   default     = "gatus"
 }
+
+variable "domain_name" {
+  description = "the domain name"
+  type        = string
+}
+
+variable "certificate_arn" {
+  description = "The ARN of the ACM cert"
+  type        = string
+}
+
+variable "alb_dns_name" {
+  description = "The DNS name of the alb"
+  type        = string
+}
+
+variable "alb_zone_id" {
+  description = "The ID of the alb zone"
+  type        = string
+}
