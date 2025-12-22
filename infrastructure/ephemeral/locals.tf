@@ -5,4 +5,6 @@ locals {
     cidr_private_subnet_app = var.cidr_private_subnet_app
     availability_zones      = var.availability_zones
   }
+
+  alt_domain = "tm.${var.domain_name}"
 }

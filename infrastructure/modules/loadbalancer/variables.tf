@@ -28,7 +28,13 @@ variable "public_subnet_id_web" {
 }
 
 variable "certificate_arn" {
-  description = "The ARN of the acm cert"
+  description = "The arn of the acm certificate"
+  type        = string
+
+}
+
+variable "alt_domain" {
+  description = "the subdomain name"
   type        = string
 
 }

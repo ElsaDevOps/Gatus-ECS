@@ -9,8 +9,8 @@ terraform {
 }
 
 
-resource "aws_ecs_cluster" "foo" {
-  name = "white-hart"
+resource "aws_ecs_cluster" "this" {
+  name = "gatus-cluster"
 
   setting {
     name  = "containerInsights"
@@ -19,69 +19,72 @@ resource "aws_ecs_cluster" "foo" {
 }
 
 
-resource "aws_ecs_service" "mongo" {
-  name            = "mongodb"
-  cluster         = aws_ecs_cluster.foo.id
-  task_definition = aws_ecs_task_definition.mongo.arn
-  desired_count   = 3
-  iam_role        = aws_iam_role.foo.arn
-  depends_on      = [aws_iam_role_policy.foo]
+resource "aws_ecs_service" "gatus" {
+  name            = "gatus"
+  cluster         = aws_ecs_cluster.this.id
+  task_definition = aws_ecs_task_definition.gatus.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
 
-  ordered_placement_strategy {
-    type  = "binpack"
-    field = "cpu"
+  network_configuration {
+    subnets          = var.subnet_ids
+    security_groups  = [var.ecs_security_group_id]
+    assign_public_ip = false
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.foo.arn
-    container_name   = "mongo"
+    target_group_arn = var.target_group_arn
+    container_name   = "my-gatus"
     container_port   = 8080
-  }
-
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
   }
 }
 
-resource "aws_ecs_task_definition" "service" {
-  family = "service"
+resource "aws_ecs_task_definition" "gatus" {
+  family                   = "gatus"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
   container_definitions = jsonencode([
     {
-      name      = "first"
-      image     = "service-first"
-      cpu       = 10
-      memory    = 512
-      essential = true
+      name                   = "my-gatus"
+      image                  = "${var.ecr_url}:${var.image_tag}"
+      essential              = true
+      readonlyRootFilesystem = true
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
-        }
-      ]
-    },
-    {
-      name      = "second"
-      image     = "service-second"
-      cpu       = 10
-      memory    = 256
-      essential = true
-      portMappings = [
-        {
-          containerPort = 443
-          hostPort      = 443
+          containerPort = 8080
+          hostPort      = 8080
+          protocol      = "tcp"
         }
       ]
     }
+
   ])
 
-  volume {
-    name      = "service-storage"
-    host_path = "/ecs/service-storage"
-  }
 
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
-  }
+}
+
+resource "aws_iam_role" "ecs_task_execution" {
+  name = "Execute-role"
+
+  assume_role_policy = jsonencode(
+    {
+      Version = "2012-10-17",
+      Statement = [
+        {
+          Effect = "Allow",
+          Action = "sts:AssumeRole"
+          Principal = {
+            Service = "ecs-tasks.amazonaws.com"
+          }
+        }
+      ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
+  role       = aws_iam_role.ecs_task_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

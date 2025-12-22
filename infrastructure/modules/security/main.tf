@@ -15,6 +15,7 @@ resource "aws_security_group" "gs_app_sg" {
   vpc_id      = var.vpc_id
 
   egress {
+    description = "allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -46,6 +47,7 @@ resource "aws_security_group" "gs_alb_sg" {
 
 
   egress {
+    description = "allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

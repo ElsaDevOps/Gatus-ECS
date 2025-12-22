@@ -3,3 +3,5 @@
 README.md
 .dockerignore
 .env
+.pre-commit-config.yaml
+infrastructure/

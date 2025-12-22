@@ -8,7 +8,9 @@ terraform {
   }
 }
 
+
 resource "aws_lb" "gs_alb" {
+  #checkov:skip=CKV_AWS_150:Deletion protection disabled to allow ephemeral layer teardown
   name                       = "gs-alb-tf"
   internal                   = false
   load_balancer_type         = "application"
@@ -96,7 +98,7 @@ resource "aws_lb_listener_rule" "redirect_root_to_tm" {
     type = "redirect"
 
     redirect {
-      host        = var.domain_name
+      host        = var.alt_domain
       path        = "/#{path}"
       query       = "#{query}"
       port        = "#{port}"

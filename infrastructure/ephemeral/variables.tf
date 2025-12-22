@@ -33,17 +33,13 @@ variable "domain_name" {
   type        = string
 }
 
-variable "certificate_arn" {
-  description = "The ARN of the ACM cert"
-  type        = string
-}
 
-variable "alb_dns_name" {
-  description = "The DNS name of the alb"
-  type        = string
-}
 
-variable "alb_zone_id" {
-  description = "The ID of the alb zone"
+
+
+
+
+variable "image_tag" {
   type        = string
+  description = "The SHA of the image"
 }
