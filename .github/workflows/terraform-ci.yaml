@@ -1,7 +1,8 @@
 name: Elsa's Terraform Quality Checker
 
 
-
+permissions:
+  contents: read
 on:
   push:
     branches:
@@ -28,15 +29,8 @@ jobs:
               terraform_version: latest
 
 
-           - name: Configure AWS Credetias
-             uses: aws-actions/configure-aws-credentials@v5
-             with:
-               role-to-assume: arn:aws:iam::313196411727:role/git-role
-               aws-region: eu-west-2
-
-
            - name: Terraform Init
-             run: terraform init
+             run: terraform init -backend=false
 
            - name: Terraform Format
              run: terraform fmt -check -recursive

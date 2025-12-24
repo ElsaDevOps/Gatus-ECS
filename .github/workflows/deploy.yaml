@@ -31,12 +31,22 @@ jobs:
       - name: Set image reference
         run: echo "IMAGE_REF=${{ steps.login-ecr.outputs.registry }}/my-gatus:${{ github.sha }}" >> "$GITHUB_ENV"
 
-      - name: Build image
+      - name: Check if image exists
+        id: check-image
         run: |
-          docker build -t "$IMAGE_REF" .
+         if aws ecr describe-images --repository-name gatus --image-ids imageTag=${{ github.sha }} 2>/dev/null; then
+         echo "exists=true" >> $GITHUB_OUTPUT
+         else
+         echo "exists=false" >> $GITHUB_OUTPUT
+         fi
+
+      - name: Build image
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker build -t "$IMAGE_REF" .
 
 
       - name: Trivy scan
+        if: steps.check-image.outputs.exists == 'false'
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_REF }}
@@ -44,8 +54,8 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Push to ECR
-        run: |
-          docker push "$IMAGE_REF"
+        if: steps.check-image.outputs.exists == 'false'
+        run: docker push "$IMAGE_REF"
 
   checkov:
     runs-on: ubuntu-latest
