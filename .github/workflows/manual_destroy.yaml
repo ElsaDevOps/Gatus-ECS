@@ -1,0 +1,34 @@
+name: Destroy Gatus
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "destroy" to confirm'
+        required: true
+        type: string
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'destroy'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::313196411727:role/git-role
+          aws-region: eu-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: /infrastructure/ephemeral
+        run: terraform init
+
+      - name: Terraform Destroy
+        working-directory: /infrastructure/ephemeral
+        run: terraform destroy --auto-approve -var="image_tag=${{ github.sha }}"

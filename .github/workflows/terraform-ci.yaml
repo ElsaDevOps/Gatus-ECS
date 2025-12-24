@@ -1,6 +1,6 @@
 name: Elsa's Terraform Quality Checker
 
-description: on push to main branch, format, validate and lint Terraform changes
+
 
 on:
   push:
