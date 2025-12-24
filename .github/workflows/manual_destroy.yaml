@@ -1,4 +1,9 @@
+# checkov:skip=CKV_GHA_7:workflow_dispatch input is a safety control requiring explicit confirmation to destroy
 name: Destroy Gatus
+
+permissions:
+  id-token: write
+  contents: read
 
 on:
   workflow_dispatch:
