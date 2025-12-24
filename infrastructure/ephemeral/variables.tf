@@ -25,12 +25,13 @@ variable "availability_zones" {
 variable "project_name" {
   description = "Name of the project, used for tagging and naming resources"
   type        = string
-  default     = "gatus"
+  default     = "Gatus"
 }
 
 variable "domain_name" {
   description = "the domain name"
   type        = string
+  default     = "elsagatus.com"
 }
 
 

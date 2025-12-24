@@ -87,7 +87,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "s3:GetObject"
     ]
     resources = [
-      "arn:aws:s3:::terraform-state-gatus-elsa/persistent/*",
+      "arn:aws:s3:::terraform-state-gatus-elsa/gatus/persistent/*",
     ]
 
   }
@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "s3:PutObject"
     ]
     resources = [
-      "arn:aws:s3:::terraform-state-gatus-elsa/ephemeral/*",
+      "arn:aws:s3:::terraform-state-gatus-elsa/gatus/ephemeral/*",
     ]
 
   }
