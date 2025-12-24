@@ -29,7 +29,7 @@ jobs:
 
 
            - name: Configure AWS Credetias
-             uses: aws-actions/configure-aws-credentials@v4
+             uses: aws-actions/configure-aws-credentials@v5
              with:
                role-to-assume: arn:aws:iam::313196411727:role/git-role
                aws-region: eu-west-2
