@@ -109,13 +109,10 @@ data "aws_iam_policy_document" "github_actions_permissions" {
 
 resource "aws_iam_role_policy_attachment" "github_actions" {
   role       = aws_iam_role.gitrole.name
-  policy_arn = data.aws_iam_policy_document.github_actions.arn
+  policy_arn = aws_iam_policy.github_actions.arn
 }
 
-resource "aws_iam_policy" "github_actions" {
-  name   = "github-actions-role"
-  policy = data.aws_iam_policy_document.github_actions_trust.json
-}
+
 
 resource "aws_iam_policy" "github_actions" {
   name   = "github-actions-permissions"
