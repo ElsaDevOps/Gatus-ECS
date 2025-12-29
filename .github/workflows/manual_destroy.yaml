@@ -5,6 +5,7 @@ permissions:
   id-token: write
   contents: read
 
+ # checkov:skip=CKV_GHA_7:Input is a confirmation gate for destroy workflow, not a build parameter
 on:
   workflow_dispatch:
     inputs:

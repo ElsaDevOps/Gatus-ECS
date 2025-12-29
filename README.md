@@ -1,4 +1,3 @@
-```markdown
 # Gatus ECS
 
 > Automated deployment of Gatus health monitoring to AWS ECS Fargate with security scanning and CI/CD.
@@ -61,7 +60,7 @@ Without this automation, deploying would require manual steps every time — err
 
 ### Installation
 
-```bash
+```markdown
 # Clone the repository
 git clone https://github.com/ElsaDevOps/Gatus-ECS.git
 cd Gatus-ECS
@@ -72,7 +71,7 @@ terraform init
 terraform apply
 
 # Ephemeral layer is applied via CI/CD on push to main
-```
+
 
 ### Running the Project
 
@@ -80,6 +79,7 @@ Push to `main` branch triggers automatic deployment.
 
 To manually destroy ephemeral infrastructure:
 - Go to Actions → "Destroy Gatus" → Run workflow → type `destroy`
+```
 
 ## Project Status
 
@@ -121,6 +121,3 @@ To manually destroy ephemeral infrastructure:
 ## Questions or Issues?
 
 Open an issue on GitHub or connect with me on LinkedIn.
-```
-
----

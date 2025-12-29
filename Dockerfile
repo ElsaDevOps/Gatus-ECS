@@ -2,6 +2,7 @@ FROM golang:1.25.5-alpine AS builder
 WORKDIR /app
 RUN CGO_ENABLED=0 GOOS=linux go install github.com/TwiN/gatus/v5@latest
 
+# checkov:skip=CKV_DOCKER_2:Scratch image has no shell for HEALTHCHECK; health verified via ALB target group and workflow health check
 FROM scratch
 COPY --from=builder  /go/bin/gatus /go/bin/gatus
 COPY --from=builder  /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt

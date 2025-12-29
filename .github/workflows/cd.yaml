@@ -1,0 +1,129 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+concurrency:
+  group: terraform-ephemeral
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-west-2
+  TF_WORKING_DIR: infrastructure/ephemeral
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: arn:aws:iam::313196411727:role/git-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform plan -var="image_tag=${{ github.event.workflow_run.head_sha }}" -out=tfplan
+
+      - name: terraform-working-dir
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: |
+            ${{ env.TF_WORKING_DIR }}/.terraform/
+            ${{ env.TF_WORKING_DIR }}/tfplan
+
+      - name: Plan Summary
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: |
+          echo "## Terraform Plan 📋" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```hcl' >> $GITHUB_STEP_SUMMARY
+          terraform show -no-color tfplan >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+  terraform-apply:
+     runs-on: ubuntu-latest
+     needs: [terraform-plan]
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: arn:aws:iam::313196411727:role/git-role
+          aws-region: eu-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: infrastructure/ephemeral
+        run: terraform init
+
+      - name: terraform-working-dir
+        uses: actions/download-artifact@v4
+        with:
+           name: tfplan
+           path: .
+
+      - name: Terraform Apply
+        working-directory: infrastructure/ephemeral
+        run: |
+          terraform apply -auto-approve -var="image_tag=${{ github.sha }}"
+
+
+      - name: Health Check
+        run: |
+          URL="https://tm.elsagatus.com"
+          MAX_ATTEMPTS=10
+          DELAY=30
+
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "Attempt $i of $MAX_ATTEMPTS..."
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+
+            if [ "$STATUS" = "200" ]; then
+              echo "## Health Check ✅" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
+              echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+              echo "| **URL** | $URL |" >> $GITHUB_STEP_SUMMARY
+              echo "| **Status** | $STATUS |" >> $GITHUB_STEP_SUMMARY
+              echo "| **Attempts** | $i |" >> $GITHUB_STEP_SUMMARY
+              exit 0
+            fi
+
+            echo "Status: $STATUS - waiting ${DELAY}s..."
+            sleep $DELAY
+          done
+
+          echo "## Health Check ❌" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **URL** | $URL |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Status** | Failed after $MAX_ATTEMPTS attempts |" >> $GITHUB_STEP_SUMMARY
+          exit 1
