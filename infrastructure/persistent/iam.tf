@@ -143,9 +143,11 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "ec2:DeleteVpc",
       "ec2:DescribeVpcs",
       "ec2:ModifyVpcAttribute",
+      "ec2:DescribeVpcAttribute",
       "ec2:CreateSubnet",
       "ec2:DeleteSubnet",
       "ec2:DescribeSubnets",
+      "ec2:DescribeSecurityGroupRules",
       "ec2:CreateInternetGateway",
       "ec2:DeleteInternetGateway",
       "ec2:DescribeInternetGateways",
@@ -176,7 +178,9 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "ec2:DescribeNetworkInterfaces",
       "ec2:CreateTags",
       "ec2:DeleteTags",
-    "ec2:DescribeAccountAttributes"]
+      "ec2:DescribeAccountAttributes",
+      "ec2:DescribeAddressesAttribute",
+    "ec2:DescribeNetworkAcls"]
     resources = ["*"]
   }
 
@@ -204,6 +208,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
     actions = ["elasticloadbalancing:CreateLoadBalancer",
       "elasticloadbalancing:DeleteLoadBalancer",
       "elasticloadbalancing:DescribeLoadBalancers",
+      "elasticloadbalancing:DescribeTargetGroupAttributes",
       "elasticloadbalancing:ModifyLoadBalancerAttributes",
       "elasticloadbalancing:CreateTargetGroup",
       "elasticloadbalancing:DeleteTargetGroup",
@@ -215,12 +220,14 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "elasticloadbalancing:CreateListener",
       "elasticloadbalancing:DeleteListener",
       "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:DescribeListenerAttributes",
       "elasticloadbalancing:ModifyListener",
       "elasticloadbalancing:CreateRule",
       "elasticloadbalancing:DeleteRule",
       "elasticloadbalancing:DescribeRules",
       "elasticloadbalancing:ModifyRule",
       "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:DescribeLoadBalancerAttributes",
       "elasticloadbalancing:RemoveTags",
     "elasticloadbalancing:DescribeTags"]
     resources = ["*"]
