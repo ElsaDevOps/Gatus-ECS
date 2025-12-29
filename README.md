@@ -36,6 +36,7 @@ Without this automation, deploying would require manual steps every time — err
 - **No static credentials:** Uses OIDC for GitHub Actions to assume AWS roles — no access keys to leak
 - **Immutable image tags:** Container images can't be overwritten — prevents supply chain attacks
 - **Automated dependency updates:** Dependabot watches Terraform, Docker, and GitHub Actions versions
+- **Manual approval gates:** Production deployments require explicit approval via GitHub Environments — prevents accidental infrastructure changes
 
 ## Technology Choices
 
@@ -47,10 +48,26 @@ Without this automation, deploying would require manual steps every time — err
 
 ## Architecture Overview
 
-![Architecture diagram](gatusart.jpg)
+![Architecture diagram](images_gifs/gatusart.jpg)
 
-![Dependency graph](graph.png)
+![Dependency graph](images_gifs/graph.png)
 Modular Terraform structure: VPC with public/private subnets, ALB in public, ECS Fargate in private, security groups restricting traffic flow. Remote state links to persistent layer (OIDC, ECR, ACM, Route 53 zone)
+
+
+## Demo
+
+### Gatus Dashboard
+![Dashboard](images_gifs/gatus.gif)
+
+### CI Pipeline
+![CI Pipeline](images_gifs/ci.png)
+
+### CD Pipeline with Approval
+![CD Pipeline](images_gifs/cd.png)
+
+
+### Manual Destroy Pipeline
+!{Destroy Pipeline}(images_gifs/destroy.png)
 
 ## Getting Started (For Developers)
 

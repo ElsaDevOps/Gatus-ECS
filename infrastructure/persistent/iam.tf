@@ -239,8 +239,15 @@ data "aws_iam_policy_document" "github_actions_permissions" {
     actions = ["route53:ChangeResourceRecordSets",
       "route53:GetHostedZone",
       "route53:ListResourceRecordSets",
-    "route53:GetChange"]
+
+    ]
     resources = ["arn:aws:route53:::hostedzone/${data.aws_route53_zone.main.zone_id}"]
+  }
+
+  statement {
+    effect    = "Allow"
+    actions   = ["route53:GetChange"]
+    resources = ["arn:aws:route53:::change/*"]
   }
 
 }
