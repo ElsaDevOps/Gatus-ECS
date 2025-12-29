@@ -65,7 +65,9 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "ecr:PutImage",
       "ecr:InitiateLayerUpload",
       "ecr:UploadLayerPart",
-    "ecr:CompleteLayerUpload"]
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeImages"
+    ]
     resources = [aws_ecr_repository.my_gatus.arn]
 
   }
@@ -104,7 +106,8 @@ data "aws_iam_policy_document" "github_actions_permissions" {
     actions = [
 
       "s3:GetObject",
-      "s3:PutObject"
+      "s3:PutObject",
+      "s3:DeleteObject"
     ]
     resources = [
       "arn:aws:s3:::terraform-state-gatus-elsa/gatus/ephemeral/*",

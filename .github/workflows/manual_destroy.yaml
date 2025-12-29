@@ -33,9 +33,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        working-directory: /infrastructure/ephemeral
+        working-directory: infrastructure/ephemeral
         run: terraform init
 
       - name: Terraform Destroy
-        working-directory: /infrastructure/ephemeral
+        working-directory: infrastructure/ephemeral
         run: terraform destroy --auto-approve -var="image_tag=${{ github.sha }}"
