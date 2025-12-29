@@ -178,6 +178,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "ec2:DescribeNetworkInterfaces",
       "ec2:CreateTags",
       "ec2:DeleteTags",
+      "ec2:ModifySubnetAttribute",
       "ec2:DescribeAccountAttributes",
       "ec2:DescribeAddressesAttribute",
     "ec2:DescribeNetworkAcls"]

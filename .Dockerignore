@@ -5,3 +5,11 @@ README.md
 .env
 .pre-commit-config.yaml
 infrastructure/
+.terraform/
+*.tfstate
+*.tfstate.*
+.github/
+images_gifs/
+.DS_Store
+
+EOF
