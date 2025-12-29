@@ -59,15 +59,20 @@ Modular Terraform structure: VPC with public/private subnets, ALB in public, ECS
 ### Gatus Dashboard
 ![Dashboard](images_gifs/gatus.gif)
 
-### CI Pipeline
+### CI Pipeline - Build & Scan
 ![CI Pipeline](images_gifs/ci.png)
 
-### CD Pipeline with Approval
-![CD Pipeline](images_gifs/cd.png)
+### CD Pipeline with Approval Gate
+![CD Pipeline](images_gifs/approve.png)
 
+### CD - Deployment
+![CD Success](images_gifs/cd.png)
+
+### Health Check
+![Health Check](images_gifs/healthcheck.png)
 
 ### Manual Destroy Pipeline
-!{Destroy Pipeline}(images_gifs/destroy.png)
+![Destroy Pipeline](images_gifs/destroy.png)
 
 ## Getting Started (For Developers)
 
