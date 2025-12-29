@@ -49,6 +49,9 @@ Without this automation, deploying would require manual steps every time — err
 
 ![Architecture diagram](gatusart.jpg)
 
+![Dependency graph](graph.png)
+Modular Terraform structure: VPC with public/private subnets, ALB in public, ECS Fargate in private, security groups restricting traffic flow. Remote state links to persistent layer (OIDC, ECR, ACM, Route 53 zone)
+
 ## Getting Started (For Developers)
 
 ### Prerequisites

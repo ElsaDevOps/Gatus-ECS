@@ -1,6 +1,30 @@
 endpoints:
   - name: Google
+    group: External
     url: https://google.com
     interval: 30s
     conditions:
       - "[STATUS] == 200"
+
+  - name: DNS Resolution
+    group: DNS
+    url: "8.8.8.8"
+    dns:
+      query-name: "elsagatus.com"
+      query-type: "A"
+    conditions:
+      - "[DNS_RCODE] == NOERROR"
+
+  - name: Certificate Valid
+    group: Security
+    url: "https://tm.elsagatus.com"
+    conditions:
+      - "[CERTIFICATE_EXPIRATION] > 720h"
+
+
+  - name: GitHub API
+    group: External
+    url: "https://api.github.com"
+    conditions:
+    - "[STATUS] == 200"
+    - "[BODY].current_user_url == https://api.github.com/user"
