@@ -12,7 +12,9 @@ on:
         description: 'Type "destroy" to confirm'
         required: true
         type: string
-
+concurrency:
+  group: terraform-ephemeral
+  cancel-in-progress: false
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
