@@ -20,7 +20,7 @@ resource "aws_ecs_cluster" "this" {
 
 
 resource "aws_ecs_service" "gatus" {
-  name            = "gatus"
+  name            = "gatus-service"
   cluster         = aws_ecs_cluster.this.id
   task_definition = aws_ecs_task_definition.gatus.arn
   desired_count   = 1

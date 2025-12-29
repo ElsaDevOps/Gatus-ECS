@@ -93,9 +93,10 @@ To manually destroy ephemeral infrastructure:
 - Live Gatus at tm.elsagatus.com
 
 **What's planned:**
-- Tighten IAM permissions using CloudTrail audit
 - Add path filtering (only rebuild image when Dockerfile changes)
-- Plan/apply separation with approval gate
+- Scope IAM resources for ECS/ELB Delete* and Modify* actions to gatus-*
+
+
 
 ## Challenges & Learnings
 

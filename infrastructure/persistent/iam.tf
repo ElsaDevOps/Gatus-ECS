@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:ElsaDevOps/Gatus-ECS:ref:refs/heads/main", "repo:ElsaDevOps/Gatus-ECS:pull_request"]
+      values   = ["repo:ElsaDevOps/Gatus-ECS:ref:refs/heads/main", "repo:ElsaDevOps/Gatus-ECS:pull_request", "repo:ElsaDevOps/Gatus-ECS:environment:production"]
     }
   }
 
@@ -137,31 +137,103 @@ data "aws_iam_policy_document" "github_actions_permissions" {
   }
 
   statement {
-    sid       = "EC2Permissions"
-    effect    = "Allow"
-    actions   = ["ec2:*"]
+    sid    = "EC2Permissions"
+    effect = "Allow"
+    actions = ["ec2:CreateVpc",
+      "ec2:DeleteVpc",
+      "ec2:DescribeVpcs",
+      "ec2:ModifyVpcAttribute",
+      "ec2:CreateSubnet",
+      "ec2:DeleteSubnet",
+      "ec2:DescribeSubnets",
+      "ec2:CreateInternetGateway",
+      "ec2:DeleteInternetGateway",
+      "ec2:DescribeInternetGateways",
+      "ec2:AttachInternetGateway",
+      "ec2:DetachInternetGateway",
+      "ec2:CreateNatGateway",
+      "ec2:DeleteNatGateway",
+      "ec2:DescribeNatGateways",
+      "ec2:AllocateAddress",
+      "ec2:ReleaseAddress",
+      "ec2:DescribeAddresses",
+      "ec2:CreateRouteTable",
+      "ec2:DeleteRouteTable",
+      "ec2:DescribeRouteTables",
+      "ec2:CreateRoute",
+      "ec2:DeleteRoute",
+      "ec2:AssociateRouteTable",
+      "ec2:DisassociateRouteTable",
+      "ec2:CreateSecurityGroup",
+      "ec2:DeleteSecurityGroup",
+      "ec2:DescribeSecurityGroups",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:RevokeSecurityGroupIngress",
+      "ec2:AuthorizeSecurityGroupEgress",
+      "ec2:RevokeSecurityGroupEgress",
+      "ec2:DescribeRegions",
+      "ec2:DescribeAvailabilityZones",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:CreateTags",
+      "ec2:DeleteTags",
+    "ec2:DescribeAccountAttributes"]
     resources = ["*"]
   }
 
   statement {
-    sid       = "ECSPermissions"
-    effect    = "Allow"
-    actions   = ["ecs:*"]
+    sid    = "ECSPermissions"
+    effect = "Allow"
+    actions = ["ecs:CreateCluster",
+      "ecs:DeleteCluster",
+      "ecs:DescribeClusters",
+      "ecs:CreateService",
+      "ecs:DeleteService",
+      "ecs:DescribeServices",
+      "ecs:UpdateService",
+      "ecs:RegisterTaskDefinition",
+      "ecs:DeregisterTaskDefinition",
+      "ecs:DescribeTaskDefinition",
+      "ecs:DescribeTasks",
+    "ecs:ListTasks"]
     resources = ["*"]
   }
 
   statement {
-    sid       = "ELBPermissions"
-    effect    = "Allow"
-    actions   = ["elasticloadbalancing:*"]
+    sid    = "ELBPermissions"
+    effect = "Allow"
+    actions = ["elasticloadbalancing:CreateLoadBalancer",
+      "elasticloadbalancing:DeleteLoadBalancer",
+      "elasticloadbalancing:DescribeLoadBalancers",
+      "elasticloadbalancing:ModifyLoadBalancerAttributes",
+      "elasticloadbalancing:CreateTargetGroup",
+      "elasticloadbalancing:DeleteTargetGroup",
+      "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeTargetHealth",
+      "elasticloadbalancing:ModifyTargetGroupAttributes",
+      "elasticloadbalancing:RegisterTargets",
+      "elasticloadbalancing:DeregisterTargets",
+      "elasticloadbalancing:CreateListener",
+      "elasticloadbalancing:DeleteListener",
+      "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:ModifyListener",
+      "elasticloadbalancing:CreateRule",
+      "elasticloadbalancing:DeleteRule",
+      "elasticloadbalancing:DescribeRules",
+      "elasticloadbalancing:ModifyRule",
+      "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:RemoveTags",
+    "elasticloadbalancing:DescribeTags"]
     resources = ["*"]
   }
 
   statement {
-    sid       = "Route53Permissions"
-    effect    = "Allow"
-    actions   = ["route53:*"]
-    resources = ["*"]
+    sid    = "Route53Permissions"
+    effect = "Allow"
+    actions = ["route53:ChangeResourceRecordSets",
+      "route53:GetHostedZone",
+      "route53:ListResourceRecordSets",
+    "route53:GetChange"]
+    resources = ["arn:aws:route53:::hostedzone/${data.aws_route53_zone.main.zone_id}"]
   }
 
 }

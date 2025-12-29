@@ -11,7 +11,7 @@ terraform {
 
 resource "aws_lb" "gs_alb" {
   #checkov:skip=CKV_AWS_150:Deletion protection disabled to allow ephemeral layer teardown
-  name                       = "gs-alb-tf"
+  name                       = "gatus-alb-tf"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [var.gs_alb_sg_id]
@@ -29,7 +29,7 @@ resource "aws_lb" "gs_alb" {
 }
 
 resource "aws_lb_target_group" "gs_alb_tg" {
-  name                 = "tf-gs-lb-tg"
+  name                 = "gatus-lb-tg"
   target_type          = "ip"
   port                 = 80
   protocol             = "HTTP"
