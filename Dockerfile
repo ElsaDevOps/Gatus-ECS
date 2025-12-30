@@ -10,4 +10,4 @@ COPY  /app/config/config.yaml /app/config/config.yaml
 USER 1000
 ENV GATUS_CONFIG_PATH=/app/config/config.yaml
 EXPOSE 8080
-CMD ["/go/bin/gatus", "/app/config/config.yaml"]
+ENTRYPOINT ["/go/bin/gatus"]
