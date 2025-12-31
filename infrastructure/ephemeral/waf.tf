@@ -1,6 +1,6 @@
 resource "aws_wafv2_web_acl" "main" {
-# checkov:skip=CKV_AWS_192:Gatus is Go-based, not vulnerable to Log4j (Java)
-# checkov:skip=CKV2_AWS_31:WAF logging not required for portfolio project; metrics enabled via visibility_config
+  # checkov:skip=CKV_AWS_192:Gatus is Go-based, not vulnerable to Log4j (Java)
+  # checkov:skip=CKV2_AWS_31:WAF logging not required for portfolio project; metrics enabled via visibility_config
   name        = "gatus-waf"
   description = "WAF for Gatus ALB"
   scope       = "REGIONAL"
