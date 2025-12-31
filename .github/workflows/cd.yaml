@@ -46,7 +46,7 @@ jobs:
         run: terraform plan -var="image_tag=${{ github.event.workflow_run.head_sha }}" -out=tfplan
 
       - name: terraform-working-dir
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tfplan
           path: |
