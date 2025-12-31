@@ -9,3 +9,7 @@ output "alb_zone_id" {
 output "target_group_arn" {
   value = aws_lb_target_group.gs_alb_tg.arn
 }
+
+output "alb_arn" {
+  value = aws_lb.gs_alb.arn
+}

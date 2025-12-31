@@ -251,6 +251,23 @@ data "aws_iam_policy_document" "github_actions_permissions" {
     resources = ["arn:aws:route53:::change/*"]
   }
 
+  statement {
+    sid    = "WAFPermissions"
+    effect = "Allow"
+    actions = ["wafv2:CreateWebACL",
+      "wafv2:DeleteWebACL",
+      "wafv2:GetWebACL",
+      "wafv2:UpdateWebACL",
+      "wafv2:ListWebACLs",
+      "wafv2:AssociateWebACL",
+      "wafv2:DisassociateWebACL",
+      "wafv2:GetWebACLForResource",
+      "wafv2:ListTagsForResource",
+      "wafv2:TagResource",
+    "wafv2:UntagResource"]
+    resources = ["*"]
+  }
+
 }
 
 resource "aws_iam_role_policy_attachment" "github_actions" {
