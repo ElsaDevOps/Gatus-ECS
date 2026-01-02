@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "alerts" {
-  name = "gatus-alerts"
+  name              = "gatus-alerts"
   kms_master_key_id = "alias/aws/sns"
 }
 
