@@ -37,6 +37,9 @@ Without this automation, deploying would require manual steps every time — err
 - **Immutable image tags:** Container images can't be overwritten — prevents supply chain attacks
 - **Automated dependency updates:** Dependabot watches Terraform, Docker, and GitHub Actions versions
 - **Manual approval gates:** Production deployments require explicit approval via GitHub Environments — prevents accidental infrastructure changes
+- **WAF protection:** Rate limiting and AWS managed rules for common attacks and SQL injection
+- **CloudWatch monitoring:** Alarms for ECS CPU/memory, ALB latency (p99), unhealthy hosts, with email alerts via SNS
+- **Disaster recovery:** Documented recovery procedure for persistent layer rebuild
 
 ## Technology Choices
 
@@ -57,21 +60,27 @@ Modular Terraform structure: VPC with public/private subnets, ALB in public, ECS
 ## Demo
 
 ### Gatus Dashboard
+
 ![Dashboard](images_gifs/gatus.gif)
 
 ### CI Pipeline - Build & Scan
+
 ![CI Pipeline](images_gifs/ci.png)
 
 ### CD Pipeline with Approval Gate
+
 ![CD Pipeline](images_gifs/approve.png)
 
-### CD - Deployment
+### CD - deployment
+
 ![CD Success](images_gifs/cd.png)
 
 ### Health Check
+
 ![Health Check](images_gifs/healthcheck.png)
 
 ### Manual Destroy Pipeline
+
 ![Destroy Pipeline](images_gifs/destroy.png)
 
 ## Getting Started (For Developers)
@@ -111,6 +120,7 @@ To manually destroy ephemeral infrastructure:
 **Current state:** Working / Portfolio project
 
 **What's working:**
+
 - Full CI/CD pipeline (build, scan, push, deploy)
 - Security scanning gates (Trivy, Checkov)
 - Automated dependency updates
@@ -118,7 +128,7 @@ To manually destroy ephemeral infrastructure:
 - Live Gatus at tm.elsagatus.com
 
 **What's planned:**
-- Add path filtering (only rebuild image when Dockerfile changes)
+
 - Scope IAM resources for ECS/ELB Delete* and Modify* actions to gatus-*
 
 

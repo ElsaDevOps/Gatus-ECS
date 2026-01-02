@@ -5,12 +5,19 @@ resource "aws_iam_openid_connect_provider" "github" {
     "sts.amazonaws.com",
   ]
 
+  lifecycle {
+    prevent_destroy = true
+  }
 
 }
 
 resource "aws_iam_role" "gitrole" {
   name               = "git-role"
   assume_role_policy = data.aws_iam_policy_document.github_actions_trust.json
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 data "aws_iam_policy_document" "github_actions_trust" {
@@ -265,6 +272,18 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "wafv2:ListTagsForResource",
       "wafv2:TagResource",
     "wafv2:UntagResource"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "CloudWatchPermissions"
+    effect = "Allow"
+    actions = ["cloudwatch:PutMetricAlarm",
+      "cloudwatch:DeleteAlarms",
+      "cloudwatch:DescribeAlarms",
+      "cloudwatch:ListTagsForResource",
+      "cloudwatch:TagResource",
+    "cloudwatch:UntagResource"]
     resources = ["*"]
   }
 
