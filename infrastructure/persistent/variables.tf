@@ -3,3 +3,9 @@ variable "domain_name" {
   type        = string
   default     = "elsagatus.com"
 }
+
+variable "alert_email" {
+  description = "Email for CloudWatch alerts"
+  type        = string
+  sensitive   = true
+}

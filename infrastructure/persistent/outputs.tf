@@ -9,3 +9,8 @@ output "hosted_zone_id" {
 output "ecr_repository_url" {
   value = aws_ecr_repository.my_gatus.repository_url
 }
+
+
+output "sns_topic_arn" {
+  value = aws_sns_topic.alerts.arn
+}
