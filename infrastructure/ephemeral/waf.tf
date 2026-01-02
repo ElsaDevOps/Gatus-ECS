@@ -14,9 +14,7 @@ resource "aws_wafv2_web_acl" "main" {
     name     = "rate-limit"
     priority = 1
 
-    override_action {
-      none {}
-    }
+
 
     statement {
       rate_based_statement {
