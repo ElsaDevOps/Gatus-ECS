@@ -35,7 +35,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory" {
   }
 }
 
-# ECS Running Tasks
+
 resource "aws_cloudwatch_metric_alarm" "ecs_running_tasks" {
   alarm_name          = "gatus-ecs-no-running-tasks"
   comparison_operator = "LessThanThreshold"
@@ -72,7 +72,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx" {
   }
 }
 
-# ALB Response Time (p99)
+
 resource "aws_cloudwatch_metric_alarm" "alb_latency" {
   alarm_name          = "gatus-alb-latency-high"
   comparison_operator = "GreaterThanThreshold"
@@ -90,7 +90,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_latency" {
   }
 }
 
-# ALB Unhealthy Hosts
+
 resource "aws_cloudwatch_metric_alarm" "alb_unhealthy" {
   alarm_name          = "gatus-alb-unhealthy-hosts"
   comparison_operator = "GreaterThanThreshold"
