@@ -235,6 +235,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "elasticloadbalancing:DescribeRules",
       "elasticloadbalancing:ModifyRule",
       "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:SetWebACL",
       "elasticloadbalancing:DescribeLoadBalancerAttributes",
       "elasticloadbalancing:RemoveTags",
     "elasticloadbalancing:DescribeTags"]
