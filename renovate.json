@@ -1,0 +1,61 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": ["at any time"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 0,
+
+  "dockerfile": {
+    "enabled": true
+  },
+  "gomod": {
+    "enabled": true
+  },
+
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Updates Dashboard",
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"]
+  },
+
+  "packageRules": [
+    {
+      "description": "Gatus - always manual review",
+      "matchDatasources": ["go"],
+      "matchPackagePatterns": ["github.com/TwiN/gatus"],
+      "automerge": false,
+      "labels": ["dependencies", "gatus", "manual-review"]
+    },
+    {
+      "description": "Go base image - manual review",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["golang"],
+      "automerge": false,
+      "labels": ["dependencies", "docker", "manual-review"]
+    },
+    {
+      "description": "Security fixes - auto-merge if tests pass",
+      "matchUpdateTypes": ["patch"],
+      "vulnerabilitySeverity": ["LOW", "MODERATE", "HIGH", "CRITICAL"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "ignoreTests": false,
+      "requiredStatusChecks": null,
+      "labels": ["dependencies", "security", "automerge"]
+    },
+    {
+      "description": "All other updates - manual review",
+      "matchUpdateTypes": ["minor", "major", "patch"],
+      "automerge": false,
+      "labels": ["dependencies", "manual-review"]
+    }
+  ],
+
+  "assignees": ["ElsaDevOps"],
+  "reviewers": ["ElsaDevOps"]
+}
