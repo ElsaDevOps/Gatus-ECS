@@ -1,6 +1,6 @@
 FROM golang:1.26.0-alpine AS builder
 WORKDIR /app
-RUN CGO_ENABLED=0 GOOS=linux go install github.com/TwiN/gatus/v5@v5.33.1
+RUN CGO_ENABLED=0 GOOS=linux go install github.com/TwiN/gatus/v5@v5.34.0
 
 # checkov:skip=CKV_DOCKER_2:Scratch image has no shell for HEALTHCHECK; health verified via ALB target group and workflow health check
 FROM scratch
