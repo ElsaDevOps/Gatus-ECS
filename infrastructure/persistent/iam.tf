@@ -41,7 +41,10 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:ElsaDevOps/Gatus-ECS:ref:refs/heads/main", "repo:ElsaDevOps/Gatus-ECS:pull_request", "repo:ElsaDevOps/Gatus-ECS:environment:production"]
+      values = ["repo:ElsaDevOps/Gatus-ECS:ref:refs/heads/main",
+        "repo:ElsaDevOps/Gatus-ECS:pull_request",
+        "repo:ElsaDevOps/Gatus-ECS:environment:production",
+      "repo:ElsaDevOps/Observability-EKS:ref:refs/heads/main"]
     }
   }
 
@@ -286,6 +289,35 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "cloudwatch:TagResource",
     "cloudwatch:UntagResource"]
     resources = ["*"]
+  }
+
+    statement {
+    sid    = "EKSPermissions"
+    effect = "Allow"
+    actions = [
+      "eks:DescribeCluster",
+      "eks:ListClusters"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "SSMRead"
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameter"
+    ]
+    resources = [
+      "arn:aws:ssm:eu-west-2:${data.aws_caller_identity.current.account_id}:parameter/dev/platform/*",
+      "arn:aws:ssm:eu-west-2:${data.aws_caller_identity.current.account_id}:parameter/prod/platform/*"
+    ]
+  }
+
+  statement {
+    sid    = "KMSDecrypt"
+    effect = "Allow"
+    actions = ["kms:Decrypt"]
+    resources = ["arn:aws:kms:eu-west-2:${data.aws_caller_identity.current.account_id}:key/ac0ad85e-210a-446b-9661-7755c95f9ce8"]
   }
 
 }

@@ -74,7 +74,7 @@ jobs:
 
       - name: Trivy scan
         if: steps.check-image.outputs.exists == 'false'
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
         with:
           image-ref: ${{ env.IMAGE_REF }}
           exit-code: '1'
