@@ -291,7 +291,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
     resources = ["*"]
   }
 
-    statement {
+  statement {
     sid    = "EKSPermissions"
     effect = "Allow"
     actions = [
@@ -314,9 +314,9 @@ data "aws_iam_policy_document" "github_actions_permissions" {
   }
 
   statement {
-    sid    = "KMSDecrypt"
-    effect = "Allow"
-    actions = ["kms:Decrypt"]
+    sid       = "KMSDecrypt"
+    effect    = "Allow"
+    actions   = ["kms:Decrypt"]
     resources = ["arn:aws:kms:eu-west-2:${data.aws_caller_identity.current.account_id}:key/ac0ad85e-210a-446b-9661-7755c95f9ce8"]
   }
 
