@@ -1,27 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "schedule": ["at any time"],
   "prConcurrentLimit": 10,
   "prHourlyLimit": 0,
-
-  "dockerfile": {
-    "enabled": true
-  },
-  "gomod": {
-    "enabled": true
-  },
-
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Dependency Updates Dashboard",
-
   "vulnerabilityAlerts": {
-    "enabled": true,
     "schedule": ["at any time"]
   },
-
   "packageRules": [
     {
       "description": "Gatus - always manual review",
@@ -40,7 +27,7 @@
     {
       "description": "Security fixes - auto-merge if tests pass",
       "matchUpdateTypes": ["patch"],
-      "vulnerabilitySeverity": ["LOW", "MODERATE", "HIGH", "CRITICAL"],
+      "matchSeverities": ["low", "moderate", "high", "critical"],
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true,
@@ -55,7 +42,6 @@
       "labels": ["dependencies", "manual-review"]
     }
   ],
-
   "assignees": ["ElsaDevOps"],
   "reviewers": ["ElsaDevOps"]
 }
