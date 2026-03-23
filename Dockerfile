@@ -1,4 +1,4 @@
-FROM golang:1.26.0-alpine AS builder
+FROM golang:1.26.1-alpine AS builder
 WORKDIR /app
 RUN go clean -modcache
 RUN CGO_ENABLED=0 GOOS=linux go install github.com/TwiN/gatus/v5@v5.34.0
