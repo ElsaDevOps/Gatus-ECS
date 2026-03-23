@@ -22,8 +22,8 @@
       "matchStrings": [
         "go install github\\.com/TwiN/gatus/v5@(?<currentValue>[^\\s]+)"
       ],
-      "depNameTemplate": "github.com/TwiN/gatus",
-      "datasourceTemplate": "go"
+      "depNameTemplate": "github-releases",
+      "datasourceTemplate": "TwiN/gatus"
     }
   ],
     "packageRules": [
