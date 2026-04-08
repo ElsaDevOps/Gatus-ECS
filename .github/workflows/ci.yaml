@@ -40,7 +40,7 @@ jobs:
 
       - name: Amazon ECR "Login" Action for GitHub Actions
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2.0.1
+        uses: aws-actions/amazon-ecr-login@v2.1.2
 
       - name: Set image reference
         run: echo "IMAGE_REF=${{ steps.login-ecr.outputs.registry }}/my-gatus:${{ github.sha }}" >> "$GITHUB_ENV"
